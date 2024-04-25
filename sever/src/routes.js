@@ -4,7 +4,7 @@ const vendedores = require('./controller/vendedorController');
 const clientes = require('./controller/clienteController');
 const visitasController = require('./controller/visitaController')
 
-
+//8
 //Rota para tabela CLIENTE
 route.post("/cliente", clientes.createCliente)       // OK 
 route.get("/clientes", clientes.readCliente)         // OK 
