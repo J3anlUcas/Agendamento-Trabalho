@@ -71,6 +71,15 @@ exports.listarVisitas = async (req, res) => {
                     var execucao = await requisicao.query(strSQLlistarAll)
                     var resultado = execucao.recordset
                     res.json(resultado)
+
+
+
+
+                res.render("relatorio")
+
+
+
+
                     break;
 
                 case 'cpf':
