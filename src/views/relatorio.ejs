@@ -1,0 +1,28 @@
+ <%- include('../includes/header') %>
+
+
+    <table>
+        <tr>
+            <th>Cliente(s)</th>
+            <th>data</th>
+            <th>vendedor</th>
+            <th>próximo passo</th>
+        </tr>
+
+
+        <% resultado.forEach(row => { %>
+
+            <tr>
+                <td><%= row.cliente%></td>
+                <td><%= row.data%></td>
+                <td><%= row.vendedor%></td>
+                <td><%= row.passo%></td>
+            </tr> 
+            <br>
+            
+            <%})%>
+
+    </table>
+
+
+    <%-include('../includes/footer')%>
