@@ -66,19 +66,25 @@ exports.listarVisitas = async (req, res) => {
 
                 case 'cnpj':
 
-                    var strSQLlistarAll = `	SELECT * FROM vendedores INNER JOIN (clientes INNER JOIN visitas ON clientes.id = visitas.cliente_id) ON vendedores.id = visitas.vendedor_id
-                    WHERE (clientes.cnpj)='${valor}'`
+                    var strSQLlistarAll = `SELECT c.nome_fantasia as nome_cliente, v.data, ve.nome as nome_vendedor, v.proximo_passo FROM visitas v JOIN clientes c ON v.cliente_id = c.id JOIN vendedores ve ON v.vendedor_id = ve.id where c.cnpj = ${valor}`
                     var execucao = await requisicao.query(strSQLlistarAll)
                     var resultado = execucao.recordset
-                    res.json(resultado)
+                    
+                    let dados = {resultado : resultado}
+                    
+                    
+                    console.log()
 
+                    resultado.forEach(element => {
 
-
-
-                res.render("relatorio")
-
-
-
+                        console.log(element.nome_vendedor)
+                        
+                    });
+                    
+                    
+                    
+                    
+                    res.render('relatorio', dados)
 
                     break;
 

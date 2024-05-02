@@ -1,28 +1,34 @@
- <%- include('../includes/header') %>
+<%- include ('../includes/header') %>
 
 
-    <table>
+
+<table border="1">
+    <tr>
+        <th>nome_cliente</th>
+        <th>data</th>
+        <th>nome_vendedor</th>
+        <th>proximo_passo</th>
+    </tr>
+
+    <%resultado.forEach(column =>{%>
+
+
         <tr>
-            <th>Cliente(s)</th>
-            <th>data</th>
-            <th>vendedor</th>
-            <th>próximo passo</th>
+            <td><%=column.nome_cliente%></td>
+            <td><%=column.data%></td>
+            <td><%=column.nome_vendedor%></td>
+            <td><%=column.proximo_passo%></td>
+
         </tr>
 
 
-        <% resultado.forEach(row => { %>
-
-            <tr>
-                <td><%= row.cliente%></td>
-                <td><%= row.data%></td>
-                <td><%= row.vendedor%></td>
-                <td><%= row.passo%></td>
-            </tr> 
-            <br>
-            
-            <%})%>
-
-    </table>
+    <%})%>
 
 
-    <%-include('../includes/footer')%>
+
+
+</table>
+
+
+
+<%- include ('../includes/footer') %>

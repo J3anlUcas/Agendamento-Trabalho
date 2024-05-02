@@ -1,5 +1,0 @@
-HOST = localhost
-DATABASE = AGENDAMENTO
-USER = Usuario01
-PASSWORD = Senha123
-PORT = 1433
