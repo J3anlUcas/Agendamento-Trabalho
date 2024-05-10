@@ -1,13 +1,15 @@
-const BD = require('../config/connection')
-const sql = require('mssql')
+import BD from '../config/connection'
+import sql from 'mssql'
+import { PrismaClient } from '@prisma/client'
 
-// MARCAÇÃO DE VISITA
+
 exports.cadastrarVisita = async (req, res) => {
     var { data, contato, vendedor, assunto, proximo_passo } = req.body
 
     sql.connect(BD, async err => {
 
         try {
+
             const requisicao = new sql.Request()
 
             // PEGANDO O ID DO CLIENTE
@@ -25,7 +27,7 @@ exports.cadastrarVisita = async (req, res) => {
             const strSQL = `INSERT INTO visitas (data, vendedor_id, cliente_id, assunto, proximo_passo)
                 VALUES('${data}','${idVendedor}','${id}','${assunto}','${proximo_passo}')`
             requisicao.query(strSQL)
-            
+
             res.json("visita marcada")
 
         }
