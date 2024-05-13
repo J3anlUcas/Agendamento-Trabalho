@@ -8,7 +8,7 @@ const prisma = new PrismaClient();
     
     let newCliente = await prisma.cliente.create({
 
-
+//bla
         data : {
 
             razao_social : razaoSocial,
