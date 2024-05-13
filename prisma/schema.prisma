@@ -3,8 +3,10 @@ generator client {
 }
 
 datasource db {
+
   provider = "sqlserver"
   url      = env("DATABASE_URL")
+
 }
 
 model cliente {
@@ -15,6 +17,7 @@ model cliente {
   contato       String  @db.NVarChar(80)
   telefone      String  @db.NVarChar(12)
   email         String  @db.NVarChar(50) @unique
+
 
   visita visitas[]
 
