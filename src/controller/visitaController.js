@@ -1,6 +1,6 @@
-import BD from '../config/connection'
-import sql from 'mssql'
-import { PrismaClient } from '@prisma/client'
+const BD =  require('../config/connection')
+const sql =require('mssql')
+const { PrismaClient } = require('@prisma/client')
 
 
 exports.cadastrarVisita = async (req, res) => {
