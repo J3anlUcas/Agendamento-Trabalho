@@ -121,13 +121,5 @@ exports.removerVisitas = async(req,res)=>{
 res.send("deletado com sucesso")
 }
 
-
-    try {
-
-        res.send("Visita desmarcada")
-    } catch (err) {
-        console.error("A conexão não foi efetuada: " + err)
-    }
-
 }
 
