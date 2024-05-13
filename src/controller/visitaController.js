@@ -26,8 +26,7 @@ exports.listarVisitas = async (req, res) => {
 
     try {
         if (!filtro) {
-
-
+            var resultado = await prisma.visitas.findMany()
             return res.json({ resultado })
         }
 
@@ -35,10 +34,10 @@ exports.listarVisitas = async (req, res) => {
         switch (filtro) {
 
             case 'cnpj':
-                await prisma.visitas.findMany({
-                    where:{
-                        cliente:{
-                            cnpj:valor
+                var resultado = await prisma.visitas.findMany({
+                    where: {
+                        cliente: {
+                            cnpj: valor
                         }
                     }
                 })
@@ -46,11 +45,25 @@ exports.listarVisitas = async (req, res) => {
                 break;
 
             case 'cpf':
-
+                var resultado = await prisma.visitas.findMany({
+                    where: {
+                        vendedor: {
+                            cpf: valor
+                        }
+                    }
+                })
                 res.json(resultado)
                 break;
 
             case 'periodo':
+                var resultado = await prisma.visitas.findMany({
+                    where: {
+                        data_visita: {
+                            lte: new Date(dataFinal), // "2022-01-30T00:00:00.000Z"
+                            gte: new Date(dataInicial)
+                        },
+                    },
+                });
 
                 res.json(resultado)
                 break;
@@ -69,6 +82,8 @@ exports.listarVisitas = async (req, res) => {
 // ATUALIZAR VISITA
 exports.atualizarVisita = async (req, res) => {
     let { coluna, valor, id } = req.body
+
+
 
     res.status(200).send("atualizado com sucesso")
 }
