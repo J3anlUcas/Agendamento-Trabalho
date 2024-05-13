@@ -25,7 +25,7 @@ route.delete("/vendedor/:id", vendedores.deleteVendedor) // OK
 route.post('/visita', visitasController.cadastrarVisita)      // ERRO
 route.get('/visitas', visitasController.listarVisitas)        // OK 
 route.put('/visita', visitasController.atualizarVisita)       // OK 
-route.delete('/visita/:id', visitasController.removerVisita)  // OK 
+route.delete('/visita/:id', visitasController.removerVisitas)  // OK 
 
 
 
