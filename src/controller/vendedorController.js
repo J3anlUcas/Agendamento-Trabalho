@@ -1,82 +1,53 @@
+const { PrismaClient } = require('@prisma/client');
+const prisma = new PrismaClient();
 
-const sql = require("mssql")
-const config = require("../config/connection")
+exports.createVendedor = async (req, res) => {
+    try {
+        const { nome, cpf, dataInicio } = req.body;
+        await prisma.vendedor.create({
+            data: {
+                nome,
+                cpf,
+                dataInicio
+            }
+        });
+        res.json("Vendedor criado com sucesso");
+    } catch (error) {
+        res.status(400).json({ error: error.message });
+    }
+};
 
-exports.createVendedor = (req, res) => {
+exports.readVendedor = async (req, res) => {
+    try {
+        const vendedores = await prisma.vendedor.findMany();
+        res.status(200).json({ resultado: vendedores });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
 
-    let { nome, cpf, dataInicio } = req.body
+exports.updateVendedor = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { coluna, valor } = req.body;
+        await prisma.vendedor.update({
+            where: { id: parseInt(id) },
+            data: {
+                [coluna]: valor
+            }
+        });
+        res.status(200).send("Atualizado com sucesso");
+    } catch (error) {
+        res.status(400).json({ error: error.message });
+    }
+};
 
-    sql.connect(config, async (err) => {
-
-        if (err) { console.log("deu bosta" + err) }
-
-        sql.query(`insert into vendedores (nome, cpf, data_inicio) values('${nome}','${cpf}','${dataInicio}')`)
-
-            res.json("vendedor criado com sucesso")
-        })
-
-}
-
-
-exports.readVendedor = (req, res) => {
-
-    sql.connect(config, async (err) => {
-
-        if (err) { console.log("deu bosta" + err) }
-
-        sql.query(`select * from vendedores`, (erro, result) => {
-
-            if (erro) { res.status(500).json({ error: erro }) }
-
-            console.log("read feito com sucesso")
-
-            res.status(200).json({ resultado: result.recordset })
-
-        })
-
-    })
-}
-
-
-exports.updateVendedor = (req, res) => {
-
-    let { coluna, valor, id } = req.body
-
-    sql.connect(config, async (err) => {
-
-        if (err) { console.log("deu bosta" + err) }
-
-        sql.query(`update vendedores set ${coluna} = '${valor}' where id = ${id}`, (erro) => {
-
-            if (erro) { res.status(400) }
-
-            res.status(200).send("atualizado com sucesso")
-
-        })
-
-    })
-}
-
-
-
-
-exports.deleteVendedor = (req, res) => {
-
-    var { id } = req.params
-
-    sql.connect(config, async (err) => {
-
-        if (err) { console.log("deu bosta") }
-
-
-        sql.query(`delete from vendedores where id = '${id}'`, (erro) => {
-
-            if (erro) { res.status(400).send("erro ao deletar") }
-
-
-            res.status(200).send("delete bem sucedido")
-
-        })
-
-    })
-}
+exports.deleteVendedor = async (req, res) => {
+    try {
+        const { id } = req.params;
+        await prisma.vendedor.delete({ where: { id: parseInt(id) } });
+        res.status(200).send("Delete bem sucedido");
+    } catch (error) {
+        res.status(400).json({ error: error.message });
+    }
+};
