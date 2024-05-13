@@ -1,87 +1,65 @@
-const sql = require("mssql")
-const config = require("../config/connection")
-
-exports.createCliente = (req, res) => {
-
-    let { nomeSocial, nomeFantasia, cnpj, contato, telefone, email } = req.body
-
-    sql.connect(config, async (err) => {
-
-        if (err) { console.log("deu bosta" + err) }
-
-        sql.query(`insert into clientes values('${nomeSocial}','${nomeFantasia}','${cnpj}','${contato}','${telefone}','${email}')`, (erro) => {
+const { PrismaClient } = require("@prisma/client");
+const prisma = new PrismaClient();
 
 
-            if (erro) { res.status(400).json({ error: erro }) }
+ exports.createCliente = async(req,res)=>{
 
-            res.status(201).json("Cliente criado com sucesso")
-        })
+    let { razaoSocial, nomeFantasia, cnpj, contato, telefone, email } = req.body
+    
+    let newCliente = await prisma.cliente.create({
 
+
+        data : {
+
+            razao_social : razaoSocial,
+            nome_fantasia :nomeFantasia,
+            cnpj : cnpj,
+            contato: contato,
+            telefone: telefone,
+            email : email
+
+        }
     })
+
+    res.send("cliente criado com sucesso")
+
+}
+
+exports.readCliente = async(req, res) => {
+
+    let showclientes = await prisma.cliente.findMany()
+
+    res.send(showclientes)
 }
 
 
-exports.readCliente = (req, res) => {
-
-    sql.connect(config, async (err) => {
-
-        if (err) { console.log("deu bosta" + err) }
-
-        sql.query(`select * from clientes`, (erro, result) => {
-
-            if (erro) { res.status(500).json({ error: erro }) }
-
-            console.log("read feito com sucesso")
-
-            res.status(200).json({ resultado: result.recordset })
-
-        })
-
-    })
-}
-
-
-exports.updateCliente = (req, res) => {
+exports.updateCliente = async(req, res) => {
 
     let { coluna, valor, id } = req.body
 
-    sql.connect(config, async (err) => {
+    console.log(req.body)
+    let updateColumn = await prisma.cliente.update({
 
-        if (err) { console.log("deu bosta" + err) }
+        where: {id_cliente : id},
+        
 
-        sql.query(`update clientes set ${coluna} = '${valor}' where id= '${id}'`, (erro) => {
-
-            if (erro) { res.status(400) }
-
-            res.status(200).send("atualizado com sucesso")
-
+        data:{[coluna] : valor}
         })
 
-    })
-}
+        res.json(updateColumn)
+
+    }
 
 
-
-
-exports.deleteCliente = (req, res) => {
+exports.deleteCliente = async (req, res) => {
 
     var { id } = req.params
 
-    sql.connect(config, async (err) => {
+    let delCliente = await prisma.cliente.delete({
 
-
-
-        if (err) { console.log("deu bosta") }
-
-
-        sql.query(`delete from clientes where id = ${id}`, (erro) => {
-
-            if (erro) { res.status(400).send("erro ao deletar") }
-
-
-            res.status(200).send("delete bem sucedido")
-
-        })
-
+        where: {id_cliente : Number(id)},
     })
+
+    res.send("deletado com sucesso")
+
 }
