@@ -8,15 +8,15 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
-  url      = "file:./dev.db"
+  provider = "sqlserver"
+  url      = env("file:./dev.db")
 }
 
 model cliente {
   id_cliente    Int    @id @default(autoincrement())
   razao_social  String @unique
   nome_fantasia String @unique
-  cnpj          String @unique
+  cnpj          String? @unique
   contato       String
   telefone      String
   email         String @unique
@@ -30,7 +30,7 @@ model vendedor {
   id_vendedor  Int       @id @default(autoincrement())
   nome         String
   cpf          String
-  data_inicio  DateTime
+  data_inicio  DateTime 
   data_termino DateTime?
 
   visita visitas[]
